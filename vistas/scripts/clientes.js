@@ -1,6 +1,6 @@
 var tabla;
 
-//Función que se ejecuta al inicio
+// Función que se ejecuta al inicio
 function init() {
     mostrarform(false);
     listar();
@@ -10,7 +10,7 @@ function init() {
     });
 }
 
-//Función para limpiar los campos
+// Función para limpiar los campos
 function limpiar() {
     $("#idcliente").val("");
     $("#cedula").val("");
@@ -25,7 +25,7 @@ function limpiar() {
     $("#direccion_referencia2").val("");
 }
 
-//Mostrar Formulario
+// Función para mostrar el formulario
 function mostrarform(flag) {
     limpiar();
     if (flag) {
@@ -40,22 +40,37 @@ function mostrarform(flag) {
     }
 }
 
-//Función para cancelar formulario
+// Función para cancelar el formulario
 function cancelarform() {
     limpiar();
     mostrarform(false);
 }
 
-//Función para listar registros
+// Función para listar los registros
 function listar() {
-    tabla = $('#tbllistado').dataTable({
-        "aProcessing": true, // Activamos el procesamiento del datatables
-        "aServerSide": true, // Paginación y filtrado realizados por el servidor
-        dom: 'Bfrtip', // Definimos los elementos del control de tabla
+    tabla = $('#tbllistado').DataTable({
+        "aProcessing": true,
+        "aServerSide": true,
+        dom: 'Bfrtip',
         buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'pdf'
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] // Exporta todas las columnas útiles
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                }
+            }
         ],
         "ajax": {
             url: '../ajax/clientes.php?op=listar',
@@ -66,16 +81,17 @@ function listar() {
             }
         },
         "bDestroy": true,
-        "iDisplayLength": 10, // Paginación
-        "order": [
-            [2, "asc"]
-        ] // Ordenar (columna, orden)
-    }).DataTable();
+        "iDisplayLength": 10,
+        "order": [[1, "asc"]],
+        "columnDefs": [
+            { "targets": [6, 7, 8, 9, 10, 11], "visible": false } // Esconde las referencias en la tabla, pero sí se exportan
+        ]
+    });
 }
 
-//Función para guardar o editar
+// Función para guardar o editar
 function guardaryeditar(e) {
-    e.preventDefault(); // No se activará la acción predeterminada del evento
+    e.preventDefault();
     $("#btnGuardar").prop("disabled", true);
     var formData = new FormData($("#formulario")[0]);
 
@@ -95,7 +111,7 @@ function guardaryeditar(e) {
     limpiar();
 }
 
-//Función para mostrar un cliente en el formulario
+// Función para mostrar un cliente
 function mostrar(idcliente) {
     $.post("../ajax/clientes.php?op=mostrar", { idcliente: idcliente }, function (data, status) {
         data = JSON.parse(data);
@@ -115,9 +131,9 @@ function mostrar(idcliente) {
     });
 }
 
-//Función para desactivar un cliente
+// Función para desactivar un cliente
 function desactivar(idcliente) {
-    bootbox.confirm("¿Está Seguro de desactivar el Cliente?", function (result) {
+    bootbox.confirm("¿Está seguro de desactivar el cliente?", function (result) {
         if (result) {
             $.post("../ajax/clientes.php?op=desactivar", { idcliente: idcliente }, function (e) {
                 bootbox.alert(e);
@@ -127,9 +143,9 @@ function desactivar(idcliente) {
     });
 }
 
-//Función para activar un cliente
+// Función para activar un cliente
 function activar(idcliente) {
-    bootbox.confirm("¿Está Seguro de activar el Cliente?", function (result) {
+    bootbox.confirm("¿Está seguro de activar el cliente?", function (result) {
         if (result) {
             $.post("../ajax/clientes.php?op=activar", { idcliente: idcliente }, function (e) {
                 bootbox.alert(e);

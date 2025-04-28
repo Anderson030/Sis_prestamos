@@ -20,7 +20,6 @@ $telefono_referencia2 = isset($_POST["telefono_referencia2"]) ? limpiarCadena($_
 $direccion_referencia2 = isset($_POST["direccion_referencia2"]) ? limpiarCadena($_POST["direccion_referencia2"]) : "";
 
 switch ($_GET["op"]) {
-        
     case 'guardaryeditar':
         if (empty($idcliente)) {
             $rspta = $cliente->insertar($cedula, $nombre, $direccion, $telefono, 
@@ -56,17 +55,21 @@ switch ($_GET["op"]) {
 
         while ($reg = $rspta->fetch_object()) {
             $data[] = array(
-                "0" => ($reg->estado) ?
-                    '<button class="btn btn-warning" onclick="mostrar('.$reg->idcliente.')"><i class="fa fa-pencil"></i></button>'.
-                    ' <button class="btn btn-danger" onclick="desactivar('.$reg->idcliente.')"><i class="fa fa-close"></i></button>'
-                    :
-                    '<button class="btn btn-warning" onclick="mostrar('.$reg->idcliente.')"><i class="fa fa-pencil"></i></button>'.
-                    ' <button class="btn btn-primary" onclick="activar('.$reg->idcliente.')"><i class="fa fa-check"></i></button>',
+                "0" => ($reg->estado) ? '<button class="btn btn-warning" onclick="mostrar('.$reg->idcliente.')"><i class="fa fa-pencil"></i></button>' .
+                                         ' <button class="btn btn-danger" onclick="desactivar('.$reg->idcliente.')"><i class="fa fa-close"></i></button>'
+                                       : '<button class="btn btn-warning" onclick="mostrar('.$reg->idcliente.')"><i class="fa fa-pencil"></i></button>' .
+                                         ' <button class="btn btn-primary" onclick="activar('.$reg->idcliente.')"><i class="fa fa-check"></i></button>',
                 "1" => $reg->cedula,
                 "2" => $reg->nombre,
                 "3" => $reg->direccion,
                 "4" => $reg->telefono,
-                "5" => ($reg->estado) ? '<span class="label bg-primary">Activado</span>' : '<span class="label bg-warning">Desactivado</span>'
+                "5" => ($reg->estado) ? '<span class="label bg-primary">Activado</span>' : '<span class="bg-warning">Desactivado</span>',
+                "6" => $reg->nombre_referencia1,
+                "7" => $reg->telefono_referencia1,
+                "8" => $reg->direccion_referencia1,
+                "9" => $reg->nombre_referencia2,
+                "10" => $reg->telefono_referencia2,
+                "11" => $reg->direccion_referencia2
             );
         }
 
@@ -76,7 +79,6 @@ switch ($_GET["op"]) {
             "iTotalDisplayRecords" => count($data),
             "aaData" => $data
         );
-
         echo json_encode($results);
     break;
 }

@@ -9,201 +9,207 @@ if (!isset($_SESSION["nombre"])) {
 
     if ($_SESSION['Prestamos'] == 1) {
 ?>
-        <!-- Inicio Contenido PHP-->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="main-box clearfix">
-                    <header class="main-box-header clearfix">
-                        <h2 class="box-title">Prestamos <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Nuevo</button></h2>
-                    </header>
-                    <div class="main-box-body clearfix" id="listadoregistros">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-condensed table-hover" id="tbllistado">
-                                <thead>
-                                    <tr>
-                                        <th>Opciones</th>
-                                        <th>Clientes</th>
-                                        <th>Usuarios</th>
-                                        <th>Fecha</th>
-                                        <th>Monto</th>
-                                        <th>Interes</th>
-                                        <th>Saldo</th>
-                                        <th>Pagos</th>
-                                        <th>Fechas</th>
-                                        <th>Plazo</th>
-                                        <th>Fecha</th>
-                                        <th>Estado</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+<!-- Inicio Contenido -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="main-box clearfix">
+            <header class="main-box-header clearfix">
+                <h2 class="box-title">Préstamos
+                    <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)">
+                        <i class="fa fa-plus-circle"></i> Nuevo
+                    </button>
+                </h2>
+            </header>
+
+            <div class="main-box-body clearfix" id="listadoregistros">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed table-hover" id="tbllistado">
+                        <thead>
+                            <tr>
+                                <th>Opciones</th>
+                                <th>Cliente</th>
+                                <th>Prestamista</th>
+                                <th>Fecha</th>
+                                <th>Monto</th>
+                                <th>Interés</th>
+                                <th>Saldo</th>
+                                <th>Forma de Pago</th>
+                                <th>Fecha Primer Pago</th>
+                                <th>Plazo</th>
+                                <th>Fecha Final</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="main-box-body clearfix" id="formularioregistros">
+                <form name="formulario" id="formulario" method="POST">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Cliente</label>
+                            <input type="hidden" name="idprestamo" id="idprestamo">
+                            <select name="idcliente" id="idcliente" class="form-control selectpicker" data-live-search="true" required></select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Prestamista</label>
+                            <select name="usuario" id="usuario" class="form-control selectpicker" data-live-search="true" required></select>
+                            <input type="hidden" class="form-control" name="fprestamo" id="fprestamo" required>
                         </div>
                     </div>
 
-                    <div class="main-box-body clearfix" id="formularioregistros">
-                        <form name="formulario" id="formulario" method="POST">
-                            <div class="row">
-                                <div class="form-group col-md-6 col-sm-9 col-xs-12">
-                                    <label>Clientes</label>
-                                    <input type="hidden" name="idprestamo" id="idprestamo">
-                                    <select name="idcliente" id="idcliente" class="form-control selectpicker" data-live-search="true" required></select>
-                                </div>
-                                <div class="form-group col-sm-6 col-xs-12">
-                                    <label>PRESTAMISTA</label>
-                                    <select name="usuario" id="usuario" class="form-control selectpicker" data-live-search="true" required></select>
-                                    <input type="hidden" class="form-control" name="fprestamo" id="fprestamo" required>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-3 col-xs-12">
-                                    <label>Monto</label>
-                                    <select name="monto" id="monto" class="form-control selectpicker" required>
-                                        <option value="">Seleccione un monto</option>
-                                        <option value="100000">$100.000</option>
-                                        <option value="200000">$200.000</option>
-                                        <option value="300000">$300.000</option>
-                                        <option value="400000">$400.000</option>
-                                        <option value="500000">$500.000</option>
-                                        <option value="600000">$600.000</option>
-                                        <option value="700000">$700.000</option>
-                                        <option value="800000">$800.000</option>
-                                        <option value="900000">$900.000</option>
-                                        <option value="1000000">$1.000.000</option>
-                                    </select>
-                                    <input type="number" id="monto_manual" class="form-control mt-2" placeholder="Otro monto" style="display:none;" />
-                                    <input type="hidden" id="valor">
-                                </div>
-                                <div class="form-group col-sm-3 col-xs-12">
-                                    <label>Interes</label>
-                                    <select class="form-control select-picker" name="interes" id="interes" required>
-                                        <option value="20">20 %</option>
-                                        <option value="15">15 %</option>
-                                        <option value="13">13 %</option>
-                                        <option value="10">10 %</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-sm-3 col-xs-12">
-                                    <label>Saldo</label>
-                                    <input type="text" name="saldo" id="saldo" class="form-control" placeholder="Saldo" required readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-3 col-xs-12">
-                                    <label>Forma Pago</label>
-                                    <select class="form-control select-picker" name="formapago" id="formapago" required>
-                                        <option value="Diario">Diario</option>
-                                        <option value="Semanal">Semanal</option>
-                                        <option value="Quincenal">Quincenal</option>
-                                        <option value="Mensual">Mensual</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-sm-3 col-xs-12">
-                                    <label>Fecha pago:</label>
-                                    <input type="date" class="form-control" name="fechapago" id="fechapago" required>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-3 col-xs-12">
-                                    <label>Plazo</label>
-                                    <select class="form-control select-picker" name="plazo" id="plazo" required>
-                                        <option value="Dia">Dia</option>
-                                        <option value="Semana">Semana</option>
-                                        <option value="Quincena">Quincena</option>
-                                        <option value="Mes">Mes</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-sm-3 col-xs-12">
-                                    <label>Fecha Cancelacion</label>
-                                    <input type="date" class="form-control" name="fplazo" id="fplazo" required>
-                                </div>
-                            </div>
-                            <div class="form-group col-xs-12">
-                                <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
-                                <button class="btn btn-danger" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
-                            </div>
-                        </form>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label>Monto</label>
+                            <select name="monto" id="monto" class="form-control selectpicker" required>
+                                <option value="">Seleccione un monto</option>
+                                <option value="100000">$100.000</option>
+                                <option value="200000">$200.000</option>
+                                <option value="300000">$300.000</option>
+                                <option value="400000">$400.000</option>
+                                <option value="500000">$500.000</option>
+                                <option value="600000">$600.000</option>
+                                <option value="700000">$700.000</option>
+                                <option value="800000">$800.000</option>
+                                <option value="900000">$900.000</option>
+                                <option value="1000000">$1.000.000</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label>Interés</label>
+                            <select name="interes" id="interes" class="form-control selectpicker" required>
+                                <option value="20">20%</option>
+                                <option value="15">15%</option>
+                                <option value="13">13%</option>
+                                <option value="10">10%</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label>Saldo</label>
+                            <input type="text" name="saldo" id="saldo" class="form-control" placeholder="Saldo" readonly required>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label>Forma de Pago</label>
+                            <select name="formapago" id="formapago" class="form-control selectpicker" required>
+                                <option value="Diario">Diario</option>
+                                <option value="Semanal">Semanal</option>
+                                <option value="Quincenal">Quincenal</option>
+                                <option value="Mensual">Mensual</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label>Fecha Primer Pago</label>
+                            <input type="date" name="fechapago" id="fechapago" class="form-control" required>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label>Plazo</label>
+                            <select name="plazo" id="plazo" class="form-control selectpicker" required>
+                                <option value="Dia">Día</option>
+                                <option value="Semana">Semana</option>
+                                <option value="Quincena">Quincena</option>
+                                <option value="Mes">Mes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label>Fecha Cancelación</label>
+                            <input type="date" name="fplazo" id="fplazo" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-12 text-center mt-3">
+                        <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
+                        <button class="btn btn-danger" type="button" onclick="cancelarform()"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
+                    </div>
+                </form>
             </div>
         </div>
-        <!-- Fin Contenido PHP-->
-    <?php
+    </div>
+</div>
+
+<?php
     } else {
         require 'noacceso.php';
     }
     require 'footer.php';
-    ?>
-    <script>
-        $(document).ready(function ($) {
-            var mont;
-            $('#monto').keyup(function (e) {
-                mont = $(this).val();
-                //console.log(mont)	  
-            })
+?>
 
-            $('select#interes').on('change', function () {
-                var valor = $(this).val();
-                var subt = mont * (valor / 100);
-                var total = parseFloat(subt) + parseFloat(mont);
-                // Formatear monto total a formato colombiano
-                var formattedTotal = total.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
-                $("#saldo").val(formattedTotal);
-            })
+<!-- SCRIPT personalizado para préstamos -->
+<script>
+$(document).ready(function () {
+    var montoSeleccionado = 0;
 
-            sumaDias = function (d, fecha) {
-                var Fecha = new Date();
-                var sFecha = fecha || (Fecha.getDate() + "-" + (Fecha.getMonth() + 1) + "-" + Fecha.getFullYear());
-                var sep = sFecha.indexOf('-') != -1 ? '-' : '-';
-                var aFecha = sFecha.split(sep);
-                var fecha = aFecha[2] + '-' + aFecha[1] + '-' + aFecha[0];
-                fecha = new Date(fecha);
-                fecha.setDate(fecha.getDate() + parseInt(d));
-                var anno = fecha.getFullYear();
-                var mes = fecha.getMonth() + 1;
-                var dia = fecha.getDate();
-                mes = (mes < 10) ? ("0" + mes) : mes;
-                dia = (dia < 10) ? ("0" + dia) : dia;
-                var fechaFinal = dia + sep + mes + sep + anno;
-                return (fechaFinal);
-            }
+    function inicializarFechas() {
+        if ($('#formapago').val() != "") {
+            calcularFechaPago();
+        }
+        if ($('#plazo').val() != "") {
+            calcularFechaCancelacion();
+        }
+    }
 
-            $('select#formapago').on('change', function () {
-                var valor = $(this).val();
-                if (valor == 'Diario') {
-                    $('#fechapago').val(sumaDias(1));
-                }
-                if (valor == 'Semanal') {
-                    $('#fechapago').val(sumaDias(7));
-                }
-                if (valor == 'Quincenal') {
-                    $('#fechapago').val(sumaDias(15));
-                }
-                if (valor == 'Mensual') {
-                    $('#fechapago').val(sumaDias(30));
-                }
-            })
+    $('#monto').on('change', function () {
+        montoSeleccionado = parseFloat($(this).val()) || 0;
+        calcularSaldo();
+    });
 
-            $('select#plazo').on('change', function () {
-                var valor = $(this).val();
-                if (valor == 'Dia') {
-                    $('#fplazo').val(sumaDias(1));
-                }
-                if (valor == 'Semana') {
-                    $('#fplazo').val(sumaDias(7));
-                }
-                if (valor == 'Quincena') {
-                    $('#fplazo').val(sumaDias(15));
-                }
-                if (valor == 'Mes') {
-                    $('#fplazo').val(sumaDias(30));
-                }
-            })
-        })
-    </script>
-    <script type="text/javascript" src="scripts/prestamos.js"></script>
-    <!--<script type="text/javascript" src="scripts/prestamos.js?v=<?php echo str_replace('.', '', microtime(true)); ?>"></script>-->
+    $('#interes').on('change', function () {
+        calcularSaldo();
+    });
 
+    function calcularSaldo() {
+        var interes = parseFloat($('#interes').val()) || 0;
+        var saldo = montoSeleccionado + (montoSeleccionado * interes / 100);
+        $('#saldo').val(saldo.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }));
+    }
+
+    function sumaDias(dias) {
+        var fecha = new Date();
+        fecha.setDate(fecha.getDate() + dias);
+        return fecha.toISOString().split('T')[0];
+    }
+
+    function calcularFechaPago() {
+        var valor = $('#formapago').val();
+        if (valor === 'Diario') $('#fechapago').val(sumaDias(1));
+        if (valor === 'Semanal') $('#fechapago').val(sumaDias(7));
+        if (valor === 'Quincenal') $('#fechapago').val(sumaDias(15));
+        if (valor === 'Mensual') $('#fechapago').val(sumaDias(30));
+    }
+
+    function calcularFechaCancelacion() {
+        var valor = $('#plazo').val();
+        if (valor === 'Dia') $('#fplazo').val(sumaDias(1));
+        if (valor === 'Semana') $('#fplazo').val(sumaDias(7));
+        if (valor === 'Quincena') $('#fplazo').val(sumaDias(15));
+        if (valor === 'Mes') $('#fplazo').val(sumaDias(30));
+    }
+
+    $('#formapago').on('change', function () {
+        calcularFechaPago();
+    });
+
+    $('#plazo').on('change', function () {
+        calcularFechaCancelacion();
+    });
+
+    // Inicializar fechas automáticamente cuando se abre el formulario
+    $("#btnagregar").on('click', function () {
+        inicializarFechas();
+    });
+});
+</script>
+
+<script src="scripts/prestamos.js"></script>
 <?php
 }
 ob_end_flush();
